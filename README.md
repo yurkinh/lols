@@ -69,7 +69,7 @@ This branch has every version of the test, updated to build with today's tools, 
 | [`src/maui`](src/maui) | .NET MAUI, a `Label` per lol | one label per lol |
 | [`src/android-canvas`](src/android-canvas) | .NET for Android, one `View` that draws on a `Canvas`, from the `canvas` branch | canvas |
 | [`src/flutter`](src/flutter) | Flutter, a `Text` widget per lol, or one `CustomPainter` | both, picked at build time |
-| [`examples/lols`](https://github.com/yurkinh/slint/tree/dotnet_bindings/examples/lols) in the Slint repository | Slint for .NET, a `Text` element per lol, or 500 reused ones | both, picked at launch |
+| [`src/slint`](src/slint) | Slint for .NET, a `Text` element per lol, or 500 reused ones, on Android and the desktop | both, picked at launch |
 
 The .NET versions target .NET 10, and the Java version signs its Release build with your debug key.
 `src/xamarin-forms` is left as it was, since Xamarin is out of support.
@@ -77,12 +77,10 @@ The .NET versions target .NET 10, and the Java version signs its Release build w
 To build every version and run each on the connected device, with the screen unlocked:
 
 ```sh
-SLINT_REPO=~/src/slint scripts/compare-android.sh
+scripts/compare-android.sh
 ```
 
 The script needs the .NET 10 SDK with the `android` and `maui` workloads, Flutter, JDK 17, and an arm64 device with USB debugging.
-`SLINT_REPO` points at a checkout of the `dotnet_bindings` branch of [yurkinh/slint](https://github.com/yurkinh/slint),
-after building its native library for Android as its `examples/lols/README.md` says; leave it out to skip Slint.
 The script keeps the screen on while it runs, prints each rate, and saves screenshots in `results/`.
 
 Results on a Motorola edge 60 neo with Android 16, Release builds:

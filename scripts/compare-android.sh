@@ -6,8 +6,6 @@
 #
 # Needs the .NET 10 SDK with the android and maui workloads, Flutter, JDK 17 for the Java version,
 # and an arm64 Android device with USB debugging, unlocked.
-# Set SLINT_REPO to a checkout of the dotnet_bindings branch of https://github.com/yurkinh/slint
-# to include the Slint for .NET version; see examples/lols/README.md there for building its native library.
 
 set -eu
 cd "$(dirname "$0")/.."
@@ -32,10 +30,8 @@ if $build; then
         (cd src/flutter && flutter build apk --release --target-platform android-arm64 --dart-define=MODE=$mode)
         cp src/flutter/build/app/outputs/flutter-apk/app-release.apk apks/flutter-$mode.apk
     done
-    if [ -n "${SLINT_REPO:-}" ]; then
-        dotnet build "$SLINT_REPO/examples/lols/dotnet-android" -c Release -p:SlintAndroid=true -v q
-        cp "$SLINT_REPO/examples/lols/dotnet-android/bin/Release/net10.0-android/dev.slint.dotnet.lols-Signed.apk" apks/slint.apk
-    fi
+    dotnet build src/slint/android/LolsAndroid.csproj -c Release -v q
+    cp src/slint/android/bin/Release/net10.0-android/dev.slint.dotnet.lols-Signed.apk apks/slint.apk
 fi
 
 # Keeps the screen on while the tests run, since a locked phone draws nothing.
