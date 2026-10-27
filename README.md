@@ -58,13 +58,50 @@ Note that I was getting around 397 already in .NET 7 MAUI.
 
 <img src="docs/java.png" width="200" />
 
-## Slint for .NET
+## Comparing on Your Own Phone
 
-The [Slint for .NET](https://www.nuget.org/packages/yurkinh.slint.net) version moved into the Slint repository, as
-[`examples/lols`](https://github.com/yurkinh/slint/tree/dotnet_bindings/examples/lols).
-It runs on the desktop and on Android, with a `canvas` mode like the `canvas` branch and an `elements` mode like the `TextView` version.
+This branch has every version of the test, updated to build with today's tools, so you can run the same comparison on your own hardware:
 
-[`src/flutter`](src/flutter) is a Flutter version with the same modes, for comparing the two on a phone.
+| Directory | Version | Mode |
+| --- | --- | --- |
+| [`src/java`](src/java) | Java, a `TextView` per lol | one label per lol |
+| [`src/android`](src/android) | .NET for Android, a `TextView` per lol | one label per lol |
+| [`src/maui`](src/maui) | .NET MAUI, a `Label` per lol | one label per lol |
+| [`src/android-canvas`](src/android-canvas) | .NET for Android, one `View` that draws on a `Canvas`, from the `canvas` branch | canvas |
+| [`src/flutter`](src/flutter) | Flutter, a `Text` widget per lol, or one `CustomPainter` | both, picked at build time |
+| [`examples/lols`](https://github.com/yurkinh/slint/tree/dotnet_bindings/examples/lols) in the Slint repository | Slint for .NET, a `Text` element per lol, or 500 reused ones | both, picked at launch |
+
+The .NET versions target .NET 10, and the Java version signs its Release build with your debug key.
+`src/xamarin-forms` is left as it was, since Xamarin is out of support.
+
+To build every version and run each on the connected device, with the screen unlocked:
+
+```sh
+SLINT_REPO=~/src/slint scripts/compare-android.sh
+```
+
+The script needs the .NET 10 SDK with the `android` and `maui` workloads, Flutter, JDK 17, and an arm64 device with USB debugging.
+`SLINT_REPO` points at a checkout of the `dotnet_bindings` branch of [yurkinh/slint](https://github.com/yurkinh/slint),
+after building its native library for Android as its `examples/lols/README.md` says; leave it out to skip Slint.
+The script keeps the screen on while it runs, prints each rate, and saves screenshots in `results/`.
+
+Results on a Motorola edge 60 neo with Android 16, Release builds:
+
+| Version | One label per lol, 5,000 | Canvas, 100,000 |
+| --- | --- | --- |
+| Java | 625 LOL/s | |
+| .NET for Android | 587 LOL/s | 161,656 LOL/s, counted when queued |
+| .NET MAUI | 271 LOL/s, with 2 ms sleeps | |
+| Flutter | 880 LOL/s | 158,000 to 170,000 LOL/s |
+| Slint for .NET | 821 LOL/s | 170,000 to 204,000 LOL/s |
+
+Read them with the notes below in mind:
+
+- The 1 ms sleep after each label caps every app in the first column.
+  The Flutter and Slint versions apply a frame's worth of labels at once, while the others post each label to the UI thread.
+- In the canvas column, the Flutter and Slint versions count a lol when the UI thread has applied it,
+  and the .NET for Android one when the background thread queues it.
+- Runs vary by a few percent; run each a few times.
 
 ## Notes on `Thead.Sleep()` calls
 
