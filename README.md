@@ -58,12 +58,11 @@ Note that I was getting around 397 already in .NET 7 MAUI.
 
 <img src="docs/java.png" width="200" />
 
-## Slint for .NET (Desktop, Internal Testing)
+## Slint for .NET
 
-[`src/slint`](src/slint) ports the test to [Slint for .NET](https://www.nuget.org/packages/yurkinh.slint.net),
-with a `canvas` mode like the `canvas` branch and an `elements` mode like the `TextView` version.
-It runs on macOS, Linux, and Windows, so its numbers don't compare with the Pixel 5 ones;
-see [its README](src/slint/README.md) for results and caveats.
+The [Slint for .NET](https://www.nuget.org/packages/yurkinh.slint.net) version moved into the Slint repository, as
+[`examples/lols`](https://github.com/yurkinh/slint/tree/dotnet_bindings/examples/lols).
+It runs on the desktop and on Android, with a `canvas` mode like the `canvas` branch and an `elements` mode like the `TextView` version.
 
 ## Notes on `Thead.Sleep()` calls
 
