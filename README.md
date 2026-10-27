@@ -64,6 +64,8 @@ The [Slint for .NET](https://www.nuget.org/packages/yurkinh.slint.net) version m
 [`examples/lols`](https://github.com/yurkinh/slint/tree/dotnet_bindings/examples/lols).
 It runs on the desktop and on Android, with a `canvas` mode like the `canvas` branch and an `elements` mode like the `TextView` version.
 
+[`src/flutter`](src/flutter) is a Flutter version with the same modes, for comparing the two on a phone.
+
 ## Notes on `Thead.Sleep()` calls
 
 Each sample has a `Thread.Sleep()` such as:
