@@ -72,6 +72,8 @@ This branch has every version of the test, updated to build with today's tools, 
 | [`src/slint`](src/slint) | Slint for .NET, a `Text` element per lol, or 500 reused ones, on Android and the desktop | both, picked at launch |
 
 The .NET versions target .NET 10, and the Java version signs its Release build with your debug key.
+The two .NET for Android versions build their Java helper from [`src/android-native`](src/android-native)
+with an `AndroidGradleProject` item, instead of a prebuilt `lols.aar`.
 `src/xamarin-forms` is left as it was, since Xamarin is out of support.
 
 To build every version and run each on the connected device, with the screen unlocked:

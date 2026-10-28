@@ -11,4 +11,8 @@
     <RuntimeIdentifier>android-arm64</RuntimeIdentifier>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
   </PropertyGroup>
+  <!-- Builds the Java helper of ../android-native and binds it, so that C# calls it as Com.Microsoft.Lols.Helper. -->
+  <ItemGroup>
+    <AndroidGradleProject Include="../android-native/build.gradle" ModuleName="lols" />
+  </ItemGroup>
 </Project>
